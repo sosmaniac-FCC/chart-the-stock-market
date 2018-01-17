@@ -1,34 +1,24 @@
 {
-  "name": "clementinejs-fcc",
+  "name": "chart-the-stock-market",
   "version": "1.0.1",
-  "description": "The elegant and lightweight boilerplate for full stack JavaScript.",
+  "description": "Charting the big gains and the heavy losses",
   "main": "server.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/johnstonbl01/clementinejs-fcc"
   },
-  "homepage": "http://www.clementinejs.com/",
-  "bugs": "https://github.com/johnstonbl01/clementinejs-fcc/issues",
-  "keywords": [
-    "MongoDB",
-    "Mongoose",
-    "full stack",
-    "Express",
-    "Node",
-    "javascript",
-    "boilerplate"
-  ],
+  "homepage": "https://chart-the-stock-market-sosmaniac.c9users.io",
   "scripts": {
-  "start": "node server.js"
+    "start": "node server.js"
   },
-  "author": "Blake Johnston",
+  "author": "John Simmons",
   "license": "MIT",
   "dependencies": {
-    "dotenv": "^1.2.0",
+    "bluebird": "^3.5.1",
+    "dotenv": "^4.0.0",
     "express": "^4.12.4",
     "express-session": "^1.11.3",
     "mongoose": "^4.1.0",
-    "passport": "^0.3.0",
-    "passport-github": "^1.0.0"
+    "passport": "^0.3.0"
   }
 }
