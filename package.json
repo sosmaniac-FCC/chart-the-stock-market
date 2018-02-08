@@ -5,20 +5,45 @@
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/johnstonbl01/clementinejs-fcc"
+    "url": "git+https://github.com/sosmaniac-FCC/chart-the-stock-market.gitc"
   },
   "homepage": "https://chart-the-stock-market-sosmaniac.c9users.io",
   "scripts": {
+    "test": "jest",
+    "build": "webpack",
     "start": "node server.js"
   },
   "author": "John Simmons",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.17.1",
     "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "d3": "^4.12.2",
     "dotenv": "^4.0.0",
     "express": "^4.12.4",
     "express-session": "^1.11.3",
+    "jquery": "^3.3.1",
     "mongoose": "^4.1.0",
-    "passport": "^0.3.0"
+    "morgan": "^1.9.0",
+    "node-uuid": "^1.4.8",
+    "react": "^16.2.0",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "jest": "^22.1.4",
+    "nodemon": "^1.14.12",
+    "webpack": "^3.10.0"
   }
 }

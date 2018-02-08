@@ -1,14 +1,26 @@
 require('dotenv').config();
 
-var path = require('path');
-var express = require('express');
-var routes = require('./app/routes/index.js');
-var mongoose = require('mongoose');
-var passport = require('passport');
-var session = require('express-session');
+const path = require('path');
+const socket = require('socket.io');
+const express = require('express');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
 
-var app = express();
-require('./app/config/passport')(passport);
+const routes = require('./routes');
+
+const app = express();
+
+app.use(logger('dev'));
+
+app.use(bodyParser.json({
+	limit: '50mb'
+}));
+app.use(bodyParser.urlencoded({ 
+	extended: false,
+	limit: '50mb'
+}));
 
 mongoose.connect(process.env.MONGO_URI, {
 	useMongoClient: true
@@ -23,12 +35,19 @@ app.use(session({
 	saveUninitialized: true
 }));
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.use('/', routes);
 
-routes(app, passport);
-
-var port = process.env.PORT || 8080;
-app.listen(port, () => {
+const port = process.env.PORT || 8080;
+const server = app.listen(port, () => {
 	console.log('Node.js listening on port ' + port + '...');
+});
+
+const io = socket(server);
+
+io.on('connection', (socket) => {
+	console.log("Apple Sauce");
+	
+	socket.on('update', (stocks) => {
+		socket.broadcast.emit('update', stocks);
+	});
 });
