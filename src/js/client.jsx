@@ -64,39 +64,10 @@ loadState((initialStocks, initialTimestamp) => {
         
         initialStocks = initialStocks.filter(ele => ele != null);
         
-        // WARNING: this code block has not been tested and may contain errors
-        // this code block ensures updated stock information from day to day
+        // Reset the stocks daily
         const today = new Date().yyyymmdd();
         if (today != initialTimestamp) {
-            let promises = [];
-            initialStocks = []; 
-            
-            for (let i = 0; i < initialStocks.length; i++) {
-                promises.push(new Promise((resolve, reject) => {
-                    $.get('/retrieve', (stock) => {
-                        if (stock != false) {
-                            resolve(stock);
-                        }
-                        else {
-                            reject('Failed to load stock ' + i);
-                        }
-                    });
-                }));
-            }
-            
-            Promise.all(promises)
-            .then((results) => {
-                results.forEach((stock) => {
-                    initialStocks.push(stock);
-                });
-                
-                readyToGo(initialStocks);
-            })
-            .catch((error) => {
-                console.error(error);
-                
-                readyToGo(undefined);
-            });
+            readyToGo(undefined);
         }
         else {
             readyToGo(initialStocks);

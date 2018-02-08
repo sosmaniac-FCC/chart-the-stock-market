@@ -34710,40 +34710,10 @@ function readyToGo(initialStocks) {
             return ele != null;
         });
 
-        // WARNING: this code block has not been tested and may contain errors
-        // this code block ensures updated stock information from day to day
+        // Reset the stocks daily
         var today = new Date().yyyymmdd();
         if (today != initialTimestamp) {
-            var promises = [];
-            initialStocks = [];
-
-            var _loop = function _loop(i) {
-                promises.push(new Promise(function (resolve, reject) {
-                    $.get('/retrieve', function (stock) {
-                        if (stock != false) {
-                            resolve(stock);
-                        } else {
-                            reject('Failed to load stock ' + i);
-                        }
-                    });
-                }));
-            };
-
-            for (var i = 0; i < initialStocks.length; i++) {
-                _loop(i);
-            }
-
-            Promise.all(promises).then(function (results) {
-                results.forEach(function (stock) {
-                    initialStocks.push(stock);
-                });
-
-                readyToGo(initialStocks);
-            }).catch(function (error) {
-                console.error(error);
-
-                readyToGo(undefined);
-            });
+            readyToGo(undefined);
         } else {
             readyToGo(initialStocks);
         }
