@@ -45,8 +45,6 @@ const server = app.listen(port, () => {
 const io = socket(server);
 
 io.on('connection', (socket) => {
-	console.log("Apple Sauce");
-	
 	socket.on('update', (stocks) => {
 		socket.broadcast.emit('update', stocks);
 	});

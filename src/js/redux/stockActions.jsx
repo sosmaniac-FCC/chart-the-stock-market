@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as d3 from 'd3';
-import $ from 'jquery';
+
+/* global $ */
 
 export function targetAndRemoveStock(target, socket) {
     return (dispatch) => {
@@ -48,9 +49,6 @@ export function visualizeStocks(node, stocks) {
         
         stocks = stocks.filter(ele => ele != null);
         
-        // console.log(stocks);
-        // console.log(JSON.stringify(stocks));
-        
         while (node.firstChild) {
             node.removeChild(node.firstChild);
         }
@@ -71,9 +69,16 @@ export function visualizeStocks(node, stocks) {
                 .tickSize(-(width - (margin.right * 2)))
                 .scale(y)
                 .tickFormat('');
+        
+        const xTicks = ((width) => {
+            if (width <= 600)
+                return 10;
+            else
+                return 20;
+        })($(window).width());
             
         const xAxis = d3.axisBottom()
-                .ticks(30)
+                .ticks(xTicks)
                 .scale(x)
                 .tickFormat(d3.timeFormat('%Y-%m-%d'));
         const yAxis = d3.axisLeft()
@@ -86,8 +91,6 @@ export function visualizeStocks(node, stocks) {
         const line = d3.line()
                 .x((d) => { return x(d.date); })
                 .y((d) => { return y(d.price); });
-                
-        // console.log('broken 2');
         
         if (stocks.length > 0) {
             let dates = stocks.reduce((master, stock) => { return master.concat(stock.results.reduce((accum, curr) => { 
@@ -106,7 +109,7 @@ export function visualizeStocks(node, stocks) {
                 else {
                     return 0;
                 }
-            }); // sort breaks functional currying
+            });
             // resume currying
             dates = dates.filter((element, i) => {
                 if (element == dates[i + 1]) {
@@ -129,8 +132,6 @@ export function visualizeStocks(node, stocks) {
                 .attr("class", "grid")
                 .attr('stroke-dasharray', '2,2')
                 .call(yGridlines);
-        
-        // console.log('broken 3');
         
         stocks.forEach((element, index) => {
             const indexData = element.results.map(i => ({date: parseTime(i.tradingDay), price: +i.close}));
@@ -160,10 +161,7 @@ export function visualizeStocks(node, stocks) {
         // the idea behind this code block comes from...
         // https://bl.ocks.org/larsenmtl/e3b8b7c2ca4787f77d78f58d41c3da91
         
-        // begin experimental code
-        
         const paths = document.getElementsByClassName('line');
-        console.log(paths, typeof paths);
         
         const mouseG = graph.append('g')
                 .style('width', '100%')
@@ -209,17 +207,12 @@ export function visualizeStocks(node, stocks) {
                 .attr('fill', (d, i) => { return d.color; })
                 .attr('id', (d, i) => { return 'price-amount' + i; })
                 .attr('transform', 'translate(-70,-8)');
-        
-        /*
-            Notes Field
-            - Slight off-centering of circle svgs upon stock deletion/addition
-        */
            
         mouseG.selectAll('rect')
                 .data(stocks)
             .enter().append('rect')
                 .attr('id', (d, i) => { return 'rect' + i; })
-                .attr('x', (d, i) => {return paths[i].getBBox().x; })
+                .attr('x', (d, i) => { return paths[i].getBBox().x; })
                 .attr('width', (d, i) => { return (width - (margin.right * 2)) - (paths[i].getBBox().x); })  // right here, box bounding
                 .attr('height', height - margin.bottom)       
                 .attr('fill', 'none')
@@ -243,10 +236,7 @@ export function visualizeStocks(node, stocks) {
         
         stocks.forEach((ele, i) => {
             // offset discontinuity
-            // test various offset components
             const mainOffset = $('.grid').offset();
-            
-            console.log(mainOffset);
             
             const element = $('#rect' + i),
                 theOff = element.offset(),
@@ -259,16 +249,12 @@ export function visualizeStocks(node, stocks) {
                 mouse.push(event.pageY);
                 
                 if (mouse[0] > theOff.left && mouse[0] < (theWidth + theOff.left) && mouse[1] > theOff.top && mouse[1] < (theHeight + theOff.top)) {
-                    // console.log('on');
-                        
                     d3.selectAll('#mouse-per-line' + i + ' circle')
                             .style('opacity', '1');
                     d3.selectAll('#mouse-per-line' + i + ' text')
                             .style('opacity', '1');
                 }
                 else {
-                    // console.log('off');
-                        
                     d3.selectAll('#mouse-per-line' + i + ' circle')
                             .style('opacity', '0');
                     d3.selectAll('#mouse-per-line' + i + ' text')

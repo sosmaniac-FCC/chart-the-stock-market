@@ -6,8 +6,6 @@ export default class Alert extends React.Component {
     }
     
     render() {
-        console.log('testing 4: ' + this.props.error);
-        
         if (this.props.error != null) {
             return (
                 <div className="row" style={{margin: '0'}}>

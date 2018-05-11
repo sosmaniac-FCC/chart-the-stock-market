@@ -12,8 +12,6 @@ router.use(bodyParser.json({
 }));
 
 router.put('/update', (req, res) => {
-    console.log("update");
-    
     Stock.findOne({})
     .then((dbStocks) => {
         return Stock.remove({});
@@ -30,12 +28,8 @@ router.put('/update', (req, res) => {
 });
 
 router.get('/retrieve', (req, res) => {
-    console.log("retrieve");
-    
     Stock.findOne({})
     .then((result) => {
-        console.log(result);
-        
         res.send(result);
     })
     .catch((e) => {
@@ -46,18 +40,23 @@ router.get('/retrieve', (req, res) => {
 router.get('/barchart', (req, res) => {
     axios.get('https://marketdata.websol.barchart.com/getHistory.json?apikey=' + process.env.BAR_KEY + '&symbol=' + req.query.query + '&type=daily&startDate=' + req.query.start + '&endDate=' + req.query.end + '&maxRecords=182&order=asc&sessionFilter=EFK&splits=true&dividends=true&exchange=NYSE%2CAMEX%2CNASDAQ')
     .then((result) => {
+        console.log('*-barchart_route');
+        // console.error(result);
+        
         const range = 100;
         const r = Math.floor(Math.random() * 256), g = Math.floor(Math.random() * range), b = Math.floor((Math.random() * range) + (256 - range));
         result.data.color = 'rgb(' + r + ',' + g + ',' + b + ')';
         res.send(result.data);
     })
     .catch((error) => {
+        console.log('*-barchart_route_error');
+        console.error(error);
+        
         res.send(false);
     });
 });
 
 router.get('/', (req, res) => {
-    console.log("send");
 	res.sendFile(path.join(__dirname, 'src/html/index.html'));
 });
 

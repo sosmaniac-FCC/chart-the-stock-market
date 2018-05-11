@@ -7,16 +7,14 @@ import { v4 } from 'node-uuid';
 import Modal from './Modal';
 
 export default class Spread extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
     }
     
     render() {
-        console.log('testing 2: ' + this.props.error);
-        
         const spread = this.props.stocks.map((item, i) => {
             return (
-                <div className="col s3" key={v4()}>
+                <div className="col s6 m4 l3" key={v4()}>
                     <div className="card" style={{borderRadius: '50px 15px', border: '1px solid gray'}}>
                         <div className="card-content black" style={{borderRadius: '50px 15px', border: '1px solid gray'}}>
                             <div id="icon-represent" style={{backgroundColor: item.color}}></div>

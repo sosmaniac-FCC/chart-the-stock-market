@@ -1,9 +1,8 @@
 import React from 'react';
-import $ from 'jquery';
 
 export default class Visualization extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         
         this.handleResize = this.handleResize.bind(this);
     }

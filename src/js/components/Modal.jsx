@@ -3,8 +3,8 @@ import React from 'react';
 import Alert from './Alert';
 
 export default class Modal extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         
         this.handleChange = this.handleChange.bind(this);
     }
@@ -18,8 +18,6 @@ export default class Modal extends React.Component {
     }
     
     render() {
-        console.log('testing 3: ' + this.props.error);
-        
         return (
             <div className="row">
                 <div id="modal1" className="modal">

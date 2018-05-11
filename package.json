@@ -11,7 +11,7 @@
   "scripts": {
     "test": "jest",
     "build": "webpack",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "author": "John Simmons",
   "license": "MIT",
@@ -23,7 +23,6 @@
     "dotenv": "^4.0.0",
     "express": "^4.12.4",
     "express-session": "^1.11.3",
-    "jquery": "^3.3.1",
     "mongoose": "^4.1.0",
     "morgan": "^1.9.0",
     "node-uuid": "^1.4.8",

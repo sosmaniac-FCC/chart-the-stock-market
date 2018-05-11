@@ -13,21 +13,13 @@ import Layout from './components/Layout';
 
 import { saveState, loadState } from './dbStorage';
 
-const middleware = applyMiddleware(thunk, logger);
+/* global io */
 
-/* global $, io */
-
-const socket = io.connect(process.env.APP_URL);
-
-// yyyymmdd date parsing
 Date.prototype.yyyymmdd = function() {
   const mm = this.getMonth() + 1; // zero-based
   const dd = this.getDate();
 
-  return [this.getFullYear(),
-          (mm>9 ? '' : '0') + mm,
-          (dd>9 ? '' : '0') + dd
-         ].join('');
+  return [this.getFullYear(), (mm > 9 ? '' : '0') + mm, (dd > 9 ? '' : '0') + dd].join('');
 };
 
 function readyToGo(initialStocks) {
@@ -36,19 +28,22 @@ function readyToGo(initialStocks) {
         update: true,
         loading: false,
         error: null
-    }, middleware);
+    }, applyMiddleware(thunk, logger));
         
     Promise.resolve(
         store.subscribe(() => {
             if (store.getState().update) {
-                saveState(store.getState().stocks); 
+                return saveState(store.getState().stocks); 
+            }
+            else {
+                return null;
             }
         })
     )
     .then(() => {
         ReactDOM.render(
             <Provider store={store}>
-                <Layout socket={socket} />
+                <Layout socket={io.connect(process.env.APP_URL)} />
             </Provider>,
             document.getElementById('app')
         );
@@ -56,16 +51,13 @@ function readyToGo(initialStocks) {
 }
 
 loadState((initialStocks, initialTimestamp) => {
-    // console.log('loadState received');
-    // console.log(initialStocks);
-    
     if (initialStocks != undefined) {
         initialStocks = JSON.parse(JSON.stringify(initialStocks));
-        
         initialStocks = initialStocks.filter(ele => ele != null);
         
         // Reset the stocks daily
         const today = new Date().yyyymmdd();
+        
         if (today != initialTimestamp) {
             readyToGo(undefined);
         }

@@ -12,8 +12,8 @@ import Visualization from './Visualization';
 import { queryAndAddStock, targetAndRemoveStock, visualizeStocks, updateStore } from '../redux/stockActions';
 
 class Layout extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         
         this.handleAdd = this.handleAdd.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
@@ -61,8 +61,6 @@ class Layout extends React.Component {
     }
     
     render() {
-        console.log('testing 1: ' + this.props.error);
-        
         return (
             <div className="container" id="master-container" style={{margin: "0 auto"}}>
                 <div className="center-align">
